@@ -74,6 +74,7 @@ Dates come from Lecture 2 (2026). The info sheet in this repo is the 2025 editio
 
 - [ ] Get the `General` folder from Canvas (`NasaThermalDatabase.mat`, `HNasa`, `SNasa`, `CpNasa`, `myfind`, ...) and replace the hard-coded `addpath` in `Exercise1Start.m`, which points to the lecturer's Dropbox.
 - [ ] Find the isentropic efficiency of each component. Lecture 2 says they are given, but they appear in none of the files here.
+- [ ] Ask in the course discussions how the report is graded. None of the files here includes a rubric, only the template.
 - [ ] Work through Exercises 1–4 to check the NASA functions against the answers in Lecture 1.
 - [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
 - [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
