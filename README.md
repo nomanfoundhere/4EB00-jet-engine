@@ -68,11 +68,14 @@ Dates come from Lecture 2 (2026). The info sheet in this repo is the 2025 editio
 - `GroupSettings/Lecture 1 Ideal Gas Mixtures 2026.pdf` (35 pp.): mole and mass fractions, Dalton's law, mixture properties as mass-weighted sums (`u_mix = Σ Y_i u_i`), NASA polynomials with formation enthalpy included in `h_i(T)`, and warm-up exercises: species enthalpies at `Tref` (Ex. 1), air properties (Ex. 2), constant-volume explosion of C2H2/air (Ex. 3), adiabatic flame temperature (Ex. 4).
 - `GroupSettings/Lecture 2 Cycle analysis 2026.pdf` (15 pp.): station layout of the engine, the given quantities, the diffuser worked through as a template for the other components, the NASA function list (`CpNasa`, `CvNasa`, `HNasa`, `UNasa`, `SNasa`), and the deadlines.
 - `GroupSettings/4EB00Special Topic Jet Engine Report Template 2026.docx`: the Word template the report must follow (see above).
-- `GroupSettings/Exercise1Start.m`: starter script for Exercise 1. It loads `NasaThermalDatabase` and evaluates `HNasa` for O2 and O.
+- `GroupSettings/Exercise1Start.m`: starter script for Exercise 1. It loads `NasaThermalDatabase` and evaluates `HNasa` for O2 and O, then calls `MyanswerExercise1`, a script of your own that does not exist yet.
+- `GroupSettings/Assignment.m`: skeleton for the cycle script. It sets up air and fuel compositions and solves the diffuser twice, by interpolation on an `h(T)` table and by bisection. Its conditions are Turns' example (gasoline, `Pamb = 45 kPa`, `AF = 75`) and must be replaced with the group 42 values. The compressor, combustor, turbine and nozzle are left to the group.
+- `GroupSettings/General/`: NASA polynomial database (`NasaThermalDatabase.mat`, 56 species) and the property functions `CpNasa`, `CvNasa`, `HNasa`, `UNasa`, `SNasa`, plus the lookup helper `myfind`. Both scripts find this folder relative to their own location, so they run from any MATLAB current folder.
 
 ## To do
 
-- [ ] Get the `General` folder from Canvas (`NasaThermalDatabase.mat`, `HNasa`, `SNasa`, `CpNasa`, `myfind`, ...) and replace the hard-coded `addpath` in `Exercise1Start.m`, which points to the lecturer's Dropbox.
+- [x] Get the `General` folder from Canvas and make both scripts find it regardless of MATLAB's current folder.
+- [ ] Replace the Turns example conditions in `Assignment.m` (gasoline, 45 kPa, `AF = 75`) with the group 42 values, and add H2 to the species list.
 - [ ] Find the isentropic efficiency of each component. Lecture 2 says they are given, but they appear in none of the files here.
 - [ ] Ask in the course discussions how the report is graded. None of the files here includes a rubric, only the template.
 - [ ] Work through Exercises 1–4 to check the NASA functions against the answers in Lecture 1.

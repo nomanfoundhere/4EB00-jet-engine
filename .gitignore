@@ -24,3 +24,6 @@ __pycache__/
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+
+# Office lock files (template open in Word)
+~$*

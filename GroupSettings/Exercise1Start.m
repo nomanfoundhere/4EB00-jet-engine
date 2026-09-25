@@ -2,7 +2,8 @@ clear all;close all;clc;
 %%
 warning off
 % addpath('D:\users\lsomers\Documents\Lectures\4EB00\2014\Matlab\General');
-addpath('/Users/bsomers/Dropbox/1 TUE/1 Lectures/4EB00/2014/Matlab/General');
+generalFolder=fullfile(fileparts(mfilename('fullpath')),'General'); % General folder next to this script, independent of MATLAB's current folder
+addpath(generalFolder);
 %% Some easy units
 kJ=1e3;kmol=1e3;
 %% Used by Nasa pols
@@ -11,7 +12,7 @@ Runiv=8.314472;
 pref=1.01235e5; % Reference pressure, 1 atm!
 Tref=298.15;    % Reference Temperature
 %% Load Nasadatabase
-TdataBase=fullfile('General','NasaThermalDatabase');
+TdataBase=fullfile(generalFolder,'NasaThermalDatabase');
 load(TdataBase);
 whos 
 % Nasa is ready
