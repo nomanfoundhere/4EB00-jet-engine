@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# MATLAB
+*.asv
+*.m~
+*.autosave
+slprj/
+codegen/
+*.slxc
+*.mex*
+octave-workspace
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# LaTeX build output
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
