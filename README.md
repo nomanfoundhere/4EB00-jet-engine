@@ -58,22 +58,6 @@ Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2` and `P6 = Pamb`, plus the 
 - energy: `h2(T2) = h1(T1) + v1^2/2`
 - isentropic step: `s2(T2,P2) - s1(T1,P1) = 0`, where the temperature part of `s` comes from `SNasa` and the pressure part is `-Rg ln(P2/P1)`
 
-## Deadlines and submission
-
-| | |
-|---|---|
-| Regular deadline | **9 October 2026** |
-| Late deadline | 16 October 2026, grade capped: `min(grade, 8)` |
-| Weight | 30% of the final 4EB00 grade |
-| Submit | `Group42.zip` to Canvas only |
-
-`Group42.zip` contains:
-
-- `Group42_report.pdf`: compact report strictly following the Word template. The draft is `GroupSettings/Group42_report.docx`.
-- `Group42_scripts.zip`: the MATLAB model, runnable as soon as it is unzipped.
-
-Canvas spells the names with `Group` and confirms the dates, together with Lecture 2 (2026). The 2025 info sheet in this repo still says `Groep` and 7/14 October, so Canvas takes precedence.
-
 ## Rules that decide the grade
 
 - **No engineering shortcuts.** Poisson relations (`pV^γ = const`) and the lower heating value must not appear. The isentropic relation comes from the entropy balance, and the heat release follows from the formation enthalpies built into the NASA `h`.
@@ -90,6 +74,22 @@ The template fixes what the report contains:
 - **Table 1**: `P` (kPa), `T` (K) and `v` (m/s) at states 1 to 6
 - for each component, a code snippet with its line numbers and a procedure explaining the equations solved and where they are implemented. The diffuser page is a worked example and is not graded: graded work starts at the compressor. The combustor takes two snippets, one for the composition before and after combustion and one for the thermodynamics.
 - **Table 2**: mass fractions of fuel, O2, N2, CO2 and H2O before and after the combustor, the specific gas constant `Rg` of each mixture, plus `AF` and the equivalence ratio
+
+## Deadlines and submission
+
+| | |
+|---|---|
+| Regular deadline | **9 October 2026** |
+| Late deadline | 16 October 2026, grade capped: `min(grade, 8)` |
+| Weight | 30% of the final 4EB00 grade |
+| Submit | `Group42.zip` to Canvas only |
+
+`Group42.zip` contains:
+
+- `Group42_report.pdf`: compact report strictly following the Word template. The draft is `GroupSettings/Group42_report.docx`.
+- `Group42_scripts.zip`: the MATLAB model, runnable as soon as it is unzipped.
+
+Canvas spells the names with `Group` and confirms the dates, together with Lecture 2 (2026). The 2025 info sheet in this repo still says `Groep` and 7/14 October, so Canvas takes precedence.
 
 ## Files
 
