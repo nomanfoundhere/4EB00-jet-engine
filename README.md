@@ -2,6 +2,20 @@
 
 Group 42 assignment for 4EB00 Thermodynamics (TU/e): cycle analysis of a turbojet in MATLAB, with every species property computed from NASA polynomials rather than the constant-cp models used in Turns.
 
+## Changes to the course files
+
+Everything not listed here is as supplied on Canvas.
+
+- **`Assignment.m`**
+  - lines 4–5 and 7: the `General` folder and the NASA database are located relative to the script (`mfilename('fullpath')`) instead of MATLAB's current folder, so the script runs wherever it is unzipped.
+  - lines 19–20: the Turns example conditions (gasoline, 45 kPa, `AF = 75`) are replaced by the group 42 values with `cFuel='H2'`.
+  - line 23: the species-order comment now reads `{'H2','O2','CO2','H2O','N2'}`.
+  - The diffuser code is the lecturer's example, unchanged. No compressor, combustor, turbine or nozzle code has been written yet.
+- **`GroupSettings.zip`**: unpacked, and only `Groep042.txt` is kept.
+- **`Exercise1Start.m`**: removed, since the exercise is not part of the submission.
+- **Report template**: group 42 conditions filled into the settings table, file renamed to `Group42_report.docx`.
+- **Repository**: `.gitignore` covers MATLAB autosaves, macOS metadata and Word lock files. History is squashed to a single initial commit, so the other groups' settings are no longer in the branch history.
+
 ## Deadlines and submission
 
 | | |
@@ -86,20 +100,6 @@ Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2` and `P6 = Pamb`, plus the 
 - `GroupSettings/Lecture 2 Cycle analysis 2026.pdf` (15 pp.): station layout of the engine, the given quantities, the diffuser worked through as a template for the other components, the NASA function list (`CpNasa`, `CvNasa`, `HNasa`, `UNasa`, `SNasa`), and the deadlines.
 - `GroupSettings/Lecture 1 Ideal Gas Mixtures 2026.pdf` (35 pp.): mole and mass fractions, Dalton's law, mixture properties as mass-weighted sums (`u_mix = Σ Y_i u_i`), NASA polynomials with formation enthalpy included in `h_i(T)`, and warm-up exercises: species enthalpies at `Tref` (Ex. 1), air properties (Ex. 2), constant-volume explosion of C2H2/air (Ex. 3), adiabatic flame temperature (Ex. 4).
 - `GroupSettings/4EB00 Special Topic Jet Engine Info 2025.pdf` (2 pp.): assignment brief, covering relevant Turns sections, MATLAB requirement, groups of two, submission format and grading of late work. Its dates and file naming are superseded by Canvas.
-
-## Changes to the course files
-
-Everything not listed here is as supplied on Canvas.
-
-- **`Assignment.m`**
-  - lines 4–5 and 7: the `General` folder and the NASA database are located relative to the script (`mfilename('fullpath')`) instead of MATLAB's current folder, so the script runs wherever it is unzipped.
-  - lines 19–20: the Turns example conditions (gasoline, 45 kPa, `AF = 75`) are replaced by the group 42 values with `cFuel='H2'`.
-  - line 23: the species-order comment now reads `{'H2','O2','CO2','H2O','N2'}`.
-  - The diffuser code is the lecturer's example, unchanged. No compressor, combustor, turbine or nozzle code has been written yet.
-- **`GroupSettings.zip`**: unpacked, and only `Groep042.txt` is kept.
-- **`Exercise1Start.m`**: removed, since the exercise is not part of the submission.
-- **Report template**: group 42 conditions filled into the settings table, file renamed to `Group42_report.docx`.
-- **Repository**: `.gitignore` covers MATLAB autosaves, macOS metadata and Word lock files. History is squashed to a single initial commit, so the other groups' settings are no longer in the branch history.
 
 ## Appendix: assignment description (Canvas, verbatim)
 
