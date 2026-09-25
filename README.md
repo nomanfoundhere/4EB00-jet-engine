@@ -30,7 +30,12 @@ A working MATLAB script that follows the control-volume analysis of Turns (1st e
 | 4 → 5 | Turbine (drives the compressor through the shaft) |
 | 5 → 6 | Nozzle |
 
-Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2`, the isentropic efficiency of each component, and `P6 = Pamb`. Each control volume is closed with conservation of mass, energy and entropy, for example in the diffuser:
+Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2` and `P6 = Pamb`. Two further conditions come from the lecturer on the course discussion board:
+
+- **Isentropic efficiencies are 1.** Every component is an ideal machine, so each compression and expansion is isentropic: `s_out = s_in`, with no efficiency correction applied afterwards.
+- **The combustor is isobaric:** `P4 = P3`.
+
+Each control volume is closed with conservation of mass, energy and entropy, for example in the diffuser:
 
 - energy: `h2(T2) = h1(T1) + v1^2/2`
 - isentropic step: `s2(T2,P2) - s1(T1,P1) = 0`, where the temperature part of `s` comes from `SNasa` and the pressure part is `-Rg ln(P2/P1)`
@@ -76,9 +81,9 @@ Dates come from Lecture 2 (2026). The info sheet in this repo is the 2025 editio
 
 - [x] Get the `General` folder from Canvas and make both scripts find it regardless of MATLAB's current folder.
 - [ ] Replace the Turns example conditions in `Assignment.m` (gasoline, 45 kPa, `AF = 75`) with the group 42 values, and add H2 to the species list.
-- [ ] Find the isentropic efficiency of each component. Lecture 2 says they are given, but they appear in none of the files here.
-- [ ] Ask in the course discussions how the report is graded. None of the files here includes a rubric, only the template.
+- [x] Find the isentropic efficiency of each component: 1 for all (lecturer, course discussions).
+- [x] Ask in the course discussions how the report is graded. None of the files here includes a rubric, only the template.
 - [ ] Work through Exercises 1–4 to check the NASA functions against the answers in Lecture 1.
-- [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
+- [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4` at `P4 = P3`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
 - [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
 - [ ] Write the report in the template, citing line numbers for every snippet, and package `Groep42_report.pdf` and `Groep42_scripts.zip`.
