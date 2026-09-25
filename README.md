@@ -47,10 +47,12 @@ Two differences from Turns decide the grade:
 
 ## Deliverables and deadlines
 
-One zip per group, submitted online, containing:
+Weight: 30% of the final 4EB00 grade. One zip per group, `Group42.zip`, submitted to Canvas only, containing:
 
-- `Groep42_report.pdf`: compact report explaining the model and results, strictly following the Word template (`GroupSettings/4EB00Special Topic Jet Engine Report Template 2026.docx`)
-- `Groep42_scripts.zip`: the MATLAB model, runnable as soon as it is unzipped
+- `Group42_report.pdf`: compact report explaining the model and results, strictly following the Word template (`GroupSettings/4EB00Special Topic Jet Engine Report Template 2026.docx`)
+- `Group42_scripts.zip`: the MATLAB model, runnable as soon as it is unzipped
+
+Canvas spells the names with `Group`. The 2025 info sheet in this repo uses `Groep`, so Canvas takes precedence.
 
 | Deadline | Date |
 |---|---|
@@ -64,7 +66,21 @@ The template fixes what the report contains:
 - for each component, a code snippet with its line numbers and a procedure explaining the equations solved and where they are implemented. The diffuser page is a worked example and is not graded: graded work starts at the compressor. The combustor takes two snippets, one for the composition before and after combustion and one for the thermodynamics.
 - **Table 2**: mass fractions of fuel, O2, N2, CO2 and H2O before and after the combustor, the specific gas constant `Rg` of each mixture, plus `AF` and the equivalence ratio
 
-Dates come from Lecture 2 (2026). The info sheet in this repo is the 2025 edition and still lists 7 and 14 October.
+Dates are confirmed by both Canvas and Lecture 2 (2026). The 2025 info sheet in this repo still lists 7 and 14 October.
+
+### Assignment description (Canvas, verbatim)
+
+> The submission should be a single zip-file containing named GroupNR.zip containing
+>
+> GroupNr_report.pdf<br>
+> GroupNr_scripts.zip (containing a working script when unzipped).<br>
+> Submit this to Canvas only.
+>
+> Stick to the template provided for the report and please use the naming convention as mentioned above.  Here is the template: 4EB00Special Topic Jet Engine Report Template 2026.docxDownload 4EB00Special Topic Jet Engine Report Template 2026.docx
+>
+> Note that each group will get different engine settings (parameters like fuel, ambient pressure etc..). These settings can be found in this zip-file: GroupSettings.zipDownload GroupSettings.zip
+>
+> The assignment will make up 30% of your final grade for the 4EB00 course. There is a regular due date (9th of October) and a late due date (16 October). If you submit late, the grade will be computed according to Grade = min(8,ReportGrade), or in words it will be at most an 8.
 
 ## Files
 
@@ -84,4 +100,4 @@ Dates come from Lecture 2 (2026). The info sheet in this repo is the 2025 editio
 - [x] Ask in the course discussions how the report is graded. None of the files here includes a rubric, only the template.
 - [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4` at `P4 = P3`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
 - [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
-- [ ] Write the report in the template, citing line numbers for every snippet, and package `Groep42_report.pdf` and `Groep42_scripts.zip`.
+- [ ] Write the report in the template, citing line numbers for every snippet, and package `Group42_report.pdf` and `Group42_scripts.zip` into `Group42.zip` for Canvas.
