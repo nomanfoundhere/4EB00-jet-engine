@@ -16,6 +16,48 @@ Everything not listed here is as supplied on Canvas.
 - **Report template**: group 42 conditions filled into the settings table, file renamed to `Group42_report.docx`.
 - **Repository**: `.gitignore` covers MATLAB autosaves, macOS metadata and Word lock files. History is squashed to a single initial commit, so the other groups' settings are no longer in the branch history.
 
+## To do
+
+- [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4` at `P4 = P3`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
+- [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
+- [ ] Write the report in `Group42_report.docx`, citing line numbers for every snippet. Add names, student numbers and the group number on the cover.
+- [ ] Package `Group42_report.pdf` and `Group42_scripts.zip` into `Group42.zip` for Canvas.
+- [x] Ask in the course discussions how the report is graded. No rubric is included in the course files, only the template. No answer yet.
+- [x] Find the isentropic efficiency of each component: 1 for all (lecturer, course discussions).
+- [x] Get the `General` folder from Canvas and make `Assignment.m` find it regardless of MATLAB's current folder.
+- [x] Replace the Turns example conditions in `Assignment.m` with the group 42 values and H2 as the fuel.
+
+## Group 42 operating point
+
+From `GroupSettings/Groep042.txt`:
+
+| Parameter | Value |
+|---|---|
+| Fuel | H2 |
+| Ambient temperature `Tamb` | 300 K |
+| Ambient pressure `Pamb` | 100 000 Pa |
+| Compressor pressure ratio `P3/P2` | 9 |
+| Fuel mass flow `mfurate` | 0.58 kg/s |
+| Air/fuel ratio `AF` (m_air / m_fuel) | 170.35 |
+| Flight speed `v1` | 200 m/s |
+
+## Cycle analysis method
+
+A working MATLAB script that follows the control-volume analysis of Turns (1st ed. Section 5.2b and pp. 551–554; 2nd ed. Section 9.4c and pp. 556–560) station by station:
+
+| Stations | Component |
+|---|---|
+| 1 → 2 | Diffuser |
+| 2 → 3 | Compressor |
+| 3 → 4 | Combustor |
+| 4 → 5 | Turbine (drives the compressor through the shaft) |
+| 5 → 6 | Nozzle |
+
+Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2` and `P6 = Pamb`, plus the two lecturer rulings under [Rules that decide the grade](#rules-that-decide-the-grade) (efficiencies of 1, isobaric combustor). Each control volume is closed with conservation of mass, energy and entropy, for example in the diffuser:
+
+- energy: `h2(T2) = h1(T1) + v1^2/2`
+- isentropic step: `s2(T2,P2) - s1(T1,P1) = 0`, where the temperature part of `s` comes from `SNasa` and the pressure part is `-Rg ln(P2/P1)`
+
 ## Deadlines and submission
 
 | | |
@@ -32,17 +74,6 @@ Everything not listed here is as supplied on Canvas.
 
 Canvas spells the names with `Group` and confirms the dates, together with Lecture 2 (2026). The 2025 info sheet in this repo still says `Groep` and 7/14 October, so Canvas takes precedence.
 
-## To do
-
-- [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4` at `P4 = P3`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
-- [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
-- [ ] Write the report in `Group42_report.docx`, citing line numbers for every snippet. Add names, student numbers and the group number on the cover.
-- [ ] Package `Group42_report.pdf` and `Group42_scripts.zip` into `Group42.zip` for Canvas.
-- [x] Ask in the course discussions how the report is graded. No rubric is included in the course files, only the template. No answer yet.
-- [x] Find the isentropic efficiency of each component: 1 for all (lecturer, course discussions).
-- [x] Get the `General` folder from Canvas and make `Assignment.m` find it regardless of MATLAB's current folder.
-- [x] Replace the Turns example conditions in `Assignment.m` with the group 42 values and H2 as the fuel.
-
 ## Rules that decide the grade
 
 - **No engineering shortcuts.** Poisson relations (`pV^γ = const`) and the lower heating value must not appear. The isentropic relation comes from the entropy balance, and the heat release follows from the formation enthalpies built into the NASA `h`.
@@ -50,20 +81,6 @@ Canvas spells the names with `Group` and confirms the dates, together with Lectu
 - **Isentropic efficiencies are 1** (lecturer, course discussions). Every component is an ideal machine, so each compression and expansion is isentropic: `s_out = s_in`, with no efficiency correction applied afterwards.
 - **The combustor is isobaric:** `P4 = P3` (lecturer, course discussions).
 - **Settings differ per group**, and the lecturer checks submitted code for copying.
-
-## Group 42 operating point
-
-From `GroupSettings/Groep042.txt`:
-
-| Parameter | Value |
-|---|---|
-| Fuel | H2 |
-| Ambient temperature `Tamb` | 300 K |
-| Ambient pressure `Pamb` | 100 000 Pa |
-| Compressor pressure ratio `P3/P2` | 9 |
-| Fuel mass flow `mfurate` | 0.58 kg/s |
-| Air/fuel ratio `AF` (m_air / m_fuel) | 170.35 |
-| Flight speed `v1` | 200 m/s |
 
 ## Report contents
 
@@ -73,23 +90,6 @@ The template fixes what the report contains:
 - **Table 1**: `P` (kPa), `T` (K) and `v` (m/s) at states 1 to 6
 - for each component, a code snippet with its line numbers and a procedure explaining the equations solved and where they are implemented. The diffuser page is a worked example and is not graded: graded work starts at the compressor. The combustor takes two snippets, one for the composition before and after combustion and one for the thermodynamics.
 - **Table 2**: mass fractions of fuel, O2, N2, CO2 and H2O before and after the combustor, the specific gas constant `Rg` of each mixture, plus `AF` and the equivalence ratio
-
-## Cycle analysis method
-
-A working MATLAB script that follows the control-volume analysis of Turns (1st ed. Section 5.2b and pp. 551–554; 2nd ed. Section 9.4c and pp. 556–560) station by station:
-
-| Stations | Component |
-|---|---|
-| 1 → 2 | Diffuser |
-| 2 → 3 | Compressor |
-| 3 → 4 | Combustor |
-| 4 → 5 | Turbine (drives the compressor through the shaft) |
-| 5 → 6 | Nozzle |
-
-Known inputs: `P1 = Pamb`, `T1 = Tamb`, `v1`, `P3/P2` and `P6 = Pamb`, plus the two lecturer rulings above. Each control volume is closed with conservation of mass, energy and entropy, for example in the diffuser:
-
-- energy: `h2(T2) = h1(T1) + v1^2/2`
-- isentropic step: `s2(T2,P2) - s1(T1,P1) = 0`, where the temperature part of `s` comes from `SNasa` and the pressure part is `-Rg ln(P2/P1)`
 
 ## Files
 
