@@ -196,7 +196,7 @@ h3 = Yair*hi3';                         % Incoming air enthalpy [J/kg].
 hfuel = Yfuel*hif';                     % Incoming fuel enthalpy [J/kg].
 h4 = (mair*h3+mfurate*hfuel)/mtot;        % Product enthalpy from the flow energy balance [J/kg].
 
-hprod_a = Yprod*hia';                   % Product enthalpy at each temperature in TR [J/kg].
+hprod_a = Yprod*hia';                   % Product enthalpy across TR [J/kg].
 T4 = interp1(hprod_a,TR,h4);             % Outlet temperature corresponding to h4 [K].
 
 for i=1:NSp                             % Loop over the selected species.
