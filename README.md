@@ -10,7 +10,10 @@ Everything not listed here is as supplied on Canvas.
   - lines 4–5 and 7: the `General` folder and the NASA database are located relative to the script (`mfilename('fullpath')`) instead of MATLAB's current folder, so the script runs wherever it is unzipped.
   - lines 19–20: the Turns example conditions (gasoline, 45 kPa, `AF = 75`) are replaced by the group 42 values with `cFuel='H2'`.
   - line 23: the species-order comment now reads `{'H2','O2','CO2','H2O','N2'}`.
-  - The diffuser code is the lecturer's example, unchanged. No compressor, combustor, turbine or nozzle code has been written yet.
+  - The diffuser code is the lecturer's example, unchanged.
+  - lines 142–158: compressor (isentropic, interpolation on the air entropy table), written by a groupmate.
+  - lines 160–212: combustor (adiabatic, isobaric, complete combustion of H2, interpolation on the product enthalpy table) and the Table 2 printout. Assumption: the H2 enters at `Tamb`, from its tank rather than through the compressor; the group settings give no fuel temperature.
+  - Turbine and nozzle are not written yet.
 - **`GroupSettings.zip`**: unpacked, and only `Groep042.txt` is kept. All files sit at the repository root; the `GroupSettings/` folder is gone.
 - **`Exercise1Start.m`**: removed, since the exercise is not part of the submission.
 - **Report template**: group 42 conditions filled into the settings table, file renamed to `Group42_report.docx`.
@@ -18,7 +21,7 @@ Everything not listed here is as supplied on Canvas.
 
 ## To do
 
-- [ ] Build the cycle script: diffuser → compressor → combustor (solve for `T4` at `P4 = P3`) → turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`).
+- [ ] Finish the cycle script: turbine (work balance with the compressor) → nozzle (exit velocity at `P6 = Pamb`). Diffuser, compressor and combustor are done.
 - [ ] Check mass, energy and entropy balances per control volume, then fill Table 1 (states 1–6) and Table 2 (compositions, `Rg`, equivalence ratio).
 - [ ] Write the report in `Group42_report.docx`, citing line numbers for every snippet. Add names, student numbers and the group number on the cover.
 - [ ] Package `Group42_report.pdf` and `Group42_scripts.zip` into `Group42.zip` for Canvas.
@@ -93,7 +96,7 @@ Canvas spells the names with `Group` and confirms the dates, together with Lectu
 
 ## Files
 
-- `Assignment.m`: skeleton for the cycle script. It sets up air and fuel compositions and solves the diffuser twice, by interpolation on an `h(T)` table and by bisection. It runs on the group 42 conditions with H2 as the fuel (diffuser result: `T2 = 319.78 K`, `P2 = 125.11 kPa`). The compressor, combustor, turbine and nozzle are left to the group.
+- `Assignment.m`: skeleton for the cycle script. It sets up air and fuel compositions and solves the diffuser twice, by interpolation on an `h(T)` table and by bisection. It runs on the group 42 conditions with H2 as the fuel (diffuser result: `T2 = 319.78 K`, `P2 = 125.11 kPa`), then the compressor and combustor, and prints Table 2. The turbine and nozzle are left to the group.
 - `Group42_report.docx`: report draft, started from the Canvas template (`4EB00Special Topic Jet Engine Report Template 2026.docx`) with the group 42 conditions filled in. Names, student numbers and the group box on the cover are still empty.
 - `General/`: NASA polynomial database (`NasaThermalDatabase.mat`, 56 species) and the property functions `CpNasa`, `CvNasa`, `HNasa`, `UNasa`, `SNasa`, plus the lookup helper `myfind`. `Assignment.m` finds this folder relative to its own location, so it runs from any MATLAB current folder.
 - `Groep042.txt`: the group's operating point.

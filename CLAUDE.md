@@ -45,6 +45,8 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 - Any edit to a course-supplied file gets recorded, with line numbers, in the README's "Changes to the course files" section. Keep the README's section order (working sections on top, lookup material below) and its anchor links intact.
 - Deliverables for Canvas: `Group42.zip` containing `Group42_report.pdf` (exported from `Group42_report.docx`, which must follow the course template) and `Group42_scripts.zip` (runnable when unzipped). Deadline 9 October 2026, late until 16 October 2026 with the grade capped at 8. Leave names and student numbers in the report empty unless the user supplies them.
 
-## Status (2026-09-25)
+## Status (2026-10-04)
 
-Done: repo set up, group 42 inputs in `Assignment.m`, diffuser verified, conditions table filled in `Group42_report.docx`, lecturer's rulings recorded. Next: compressor (stage 2→3), then combustor (solve `T4` at `P4 = P3`), turbine, nozzle (exit velocity at `P6 = Pamb`); then fill Table 1 (P, T, v at states 1 to 6) and Table 2 (compositions, `Rg`, equivalence ratio). Open question: the grading rubric (asked on the course discussion board, no answer yet).
+Done: repo set up, group 42 inputs, diffuser verified, compressor (a groupmate's, lines 142–158), combustor (lines 160–212, with Table 2 printed), conditions table filled in `Group42_report.docx`, lecturer's rulings recorded. Combustor assumption: the H2 enters at `Tamb`. Next: turbine (work balance with the compressor), nozzle (exit velocity at `P6 = Pamb`); then fill Table 1 (P, T, v at states 1 to 6). Open question: the grading rubric (asked on the course discussion board, no answer yet).
+
+A local-only branch, `sept29-full-cycle`, holds an earlier full-cycle attempt in a non-course style with rewritten comments in `General/`. It is not the baseline and is deliberately not pushed; use it only as an independent cross-check (its combustor agrees to within 0.2 K, the gap coming from its 298.15 K fuel temperature).
