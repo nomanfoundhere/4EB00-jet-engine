@@ -157,56 +157,80 @@ T3 = interp1(sair_a, TR, s3thermal);
 fprintf('P3 = %.6g kPa\n', P3/kPa);
 fprintf('T3 = %.5g K\n', T3);
 
-%% [3-4] Combustor :: adiabatic, isobaric, complete combustion H2 + 1/2 O2 -> H2O
-cMethod = 'Interpolation Method';
-sPart = 'Combustor';
-P4 = P3;                                                                    % isobaric combustor (lecturer's ruling) [Pa]
-Tfuel = Tamb;                                                               % H2 enters from its tank at ambient T, not via the compressor [K]
-mair = AF*mfurate;                                                          % air mass flow through the engine [kg/s]
-mtot = mair+mfurate;                                                        % combustor outlet (and turbine) mass flow [kg/s]
-% Composition before the combustor: fuel + air, order {'H2','O2','CO2','H2O','N2'}
-nreac = [mfurate/Mi(1) mair*Yair(2)/Mi(2) 0 0 mair*Yair(5)/Mi(5)];        % 1x5 molar flows entering [mol/s]
-Yreac = nreac.*Mi/mtot;                                                     % 1x5 mass fractions of the unburnt mixture [-]
-% Composition after: every mol H2 takes 1/2 mol O2 and makes 1 mol H2O (lean, so H2 is used up)
-nprod = nreac + nreac(1)*[-1 -0.5 0 1 0];                                   % 1x5 molar flows leaving [mol/s]
-Yprod = nprod.*Mi/mtot;                                                     % 1x5 mass fractions of the products [-]
-mcheck = nprod*Mi'-mtot;                                                    % mass in minus mass out, should be ~0 [kg/s]
-RgReac = Runiv*sum(nreac)/mtot;                                             % gas constant of the unburnt mixture [J/kg/K]
-RgProd = Runiv*sum(nprod)/mtot;                                             % gas constant of the products [J/kg/K]
-AFst = 0.5*nreac(1)*Mi(2)/Yair(2)/mfurate;                                  % stoichiometric air/fuel ratio: just enough O2 [kg/kg]
-phi = AFst/AF;                                                              % equivalence ratio, <1 means lean [-]
-% Energy balance (no work, no heat loss): enthalpy flow in = enthalpy flow out.
-% HNasa contains the formation enthalpy, so the heat release needs no heating value.
-for i=1:NSp
-    hi3(i)    = HNasa(T3,SpS(i));
-    hif(i)    = HNasa(Tfuel,SpS(i));
+%% [3-4] Combustor: composition
+% Species order: [H2 O2 CO2 H2O N2].
+% Complete combustion of H2 with excess air.
+
+mair = AF*mfurate;                       % Air mass flow [kg/s].
+mtot = mair+mfurate;                     % Total outlet mass flow [kg/s].
+
+nreac = (mair*Yair+mfurate*Yfuel)./Mi;    % Inlet molar flow of each species [mol/s].
+Yreac = nreac.*Mi/mtot;                  % Mass fractions before combustion [-].
+
+nprod = nreac+nreac(1)*[-1 -0.5 0 1 0]; % Outlet molar flows: H2 + 0.5 O2 -> H2O [mol/s].
+Yprod = nprod.*Mi/mtot;                  % Mass fractions after combustion [-].
+mcheck = mtot-nprod*Mi';                 % Mass flow in minus out [kg/s].
+
+RgReac = Runiv*sum(nreac)/mtot;           % Reactant gas constant [J/(kg K)].
+RgProd = Runiv*sum(nprod)/mtot;           % Product gas constant [J/(kg K)].
+AFst = 0.5*Mi(2)/(Mi(1)*Yair(2));        % Stoichiometric air/fuel mass ratio [kg/kg].
+phi = AFst/AF;                          % Equivalence ratio; below 1 means lean [-].
+
+%% [3-4] Combustor: thermodynamics
+% Steady, adiabatic flow with no shaft work or potential energy change.
+
+cMethod = 'Interpolation Method';        % Method label for the output.
+sPart = 'Combustor';                     % Component label for the output.
+
+P4 = P3;                                % Constant-pressure outlet [Pa].
+Tfuel = Tamb;                           % Assumed fuel inlet temperature [K].
+v3 = 0;                                 % Neglected inlet bulk velocity [m/s].
+v4 = 0;                                 % Neglected outlet bulk velocity [m/s].
+
+for i=1:NSp                             % Loop over the selected species.
+    hi3(i) = HNasa(T3,SpS(i));           % Species enthalpy at air inlet temperature [J/kg].
+    hif(i) = HNasa(Tfuel,SpS(i));         % Species enthalpy at fuel inlet temperature [J/kg].
 end
-h3 = Yair*hi3';                                                             % air leaving the compressor [J/kg]
-hfuel = Yfuel*hif';                                                         % H2 at Tfuel (H2 has zero formation enthalpy) [J/kg]
-h4 = (mair*h3+mfurate*hfuel)/mtot;                                          % products leaving the combustor [J/kg]
-hprod_a = Yprod*hia';                                                       % 1xNTR enthalpy of the products over TR [J/kg]
-T4 = interp1(hprod_a,TR,h4);                                                % temperature at which the products hold h4 [K]
-for i=1:NSp
-    si4(i)    = SNasa(T4,SpS(i));
+
+h3 = Yair*hi3';                         % Incoming air enthalpy [J/kg].
+hfuel = Yfuel*hif';                     % Incoming fuel enthalpy [J/kg].
+h4 = (mair*h3+mfurate*hfuel)/mtot;        % Product enthalpy from the flow energy balance [J/kg].
+
+hprod_a = Yprod*hia';                   % Product enthalpy at each temperature in TR [J/kg].
+T4 = interp1(hprod_a,TR,h4);             % Outlet temperature corresponding to h4 [K].
+
+for i=1:NSp                             % Loop over the selected species.
+    si4(i) = SNasa(T4,SpS(i));           % Species entropy at T4 and reference pressure [J/(kg K)].
 end
-s4thermal = Yprod*si4';
-S4  = s4thermal - RgProd*log(P4/Pref);                                      % total entropy stage 4 (products)
-% Print to screen
+
+s4thermal = Yprod*si4';                 % Weighted reference-pressure entropy [J/(kg K)].
+S4 = s4thermal-RgProd*log(P4/Pref);       % Course entropy value, excluding mixing [J/(kg K)].
+
+%% Combustor results for the report
+% Table 1 uses air at state 3 and products at state 4.
 fprintf('\n%14s\n',cMethod);
 fprintf('Stage  ||%14s        [unit]\n      NR|%9i %9i\n',sPart,3,4);
 fprintf('-------------------------------------\n');
 fprintf('%8s| %9.2f %9.2f  [K]\n','Temp',T3,T4);
 fprintf('%8s| %9.2f %9.2f  [kPa]\n','Press',P3/kPa,P4/kPa);
-fprintf('%8s| %9.2f %9.2f  [m/s]\n','v',0,0);
-fprintf('---  H/S    -------------------------\n');
+fprintf('%8s| %9.2f %9.2f  [m/s]\n','v',v3,v4);
 fprintf('%8s| %9.2f %9.2f  [kJ/kg]\n','h',h3/kJ,h4/kJ);
-fprintf('%8s| %9.2f %9.2f  [kJ/kg/K]\n','Total S',S3/kJ,S4/kJ);
-% Table 2 of the report
-fprintf('\nTable 2  AF = %.2f  (equivalence ratio = %.4f, stoichiometric AF = %.2f)\n',AF,phi,AFst);
-fprintf('%8s| %9s %9s\n','Y','Initial','Final');
-cName = {'Fuel','O2','CO2','H2O','N2'};
-for i=1:NSp
-    fprintf('%8s| %9.5f %9.5f\n',cName{i},Yreac(i),Yprod(i));
+fprintf('%8s| %9.2f %9.2f  [kJ/(kg K)]\n','s*',S3/kJ,S4/kJ);
+fprintf('s*: course entropy convention, excludes entropy of mixing.\n');
+fprintf('Assumed fuel inlet temperature: %.2f K\n',Tfuel);
+
+% Table 2 lists the combined reactants and products in the template's order.
+cName = {'Fuel','O2','N2','CO2','H2O'};     % Row labels in Group42_report.docx.
+iReport = [1 2 5 3 4];                    % Database indices for those report rows.
+fprintf('\nTable 2: mixture composition\n');
+fprintf('AF = %.2f kg/kg; equivalence ratio = %.4f\n',AF,phi);
+fprintf('Stoichiometric AF = %.2f kg/kg\n',AFst);
+fprintf('%8s| %9s %9s\n','Species','Initial','Final');
+fprintf('-------------------------------------\n');
+for j=1:NSp
+    i = iReport(j);
+    fprintf('%8s| %9.5f %9.5f\n',cName{j},Yreac(i),Yprod(i));
 end
-fprintf('%8s| %9.2f %9.2f  [J/kg/K]\n','Rg',RgReac,RgProd);
-fprintf('mass check (in - out) = %.2e kg/s\n',mcheck);
+fprintf('%8s| %9.2f %9.2f  [J/(kg K)]\n','Rg',RgReac,RgProd);
+fprintf('Mass fractions are in kg species/kg mixture.\n');
+fprintf('Mass balance (in - out): %.2e kg/s\n',mcheck);
