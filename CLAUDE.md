@@ -20,9 +20,9 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 
 ## How the code fits together
 
-- `Assignment.m` is the lecturer's skeleton, adapted. It resolves `General/` relative to its own location (`mfilename('fullpath')`, lines 4–7), sets the globals `Runiv` and `Pref`, loads `NasaThermalDatabase` (struct array `Sp`, 56 species), and selects species with `myfind` in the fixed order `{cFuel,'O2','CO2','H2O','N2'}`. Every composition vector (`Xair`, `Yair`, `Yfuel`) and property matrix (`hia`, `sia`) relies on that order.
+- `Assignment.m` is the lecturer's skeleton, adapted. It resolves `General/` relative to its own location (`mfilename('fullpath')`, lines 5–10), sets the globals `Runiv` and `Pref`, loads `NasaThermalDatabase` (struct array `Sp`, 56 species), and selects species with `myfind` in the fixed order `{cFuel,'O2','CO2','H2O','N2'}`. Every composition vector (`Xair`, `Yair`, `Yfuel`) and property matrix (`hia`, `sia`) relies on that order.
 - Mixture properties are mass-fraction-weighted sums: `h_mix = Y * h_i'`. `HNasa` includes the formation enthalpy, which is how combustion enters the energy balance with no heating value. `SNasa` returns only the temperature part of the entropy; the pressure part is `-Rg*log(P/Pref)`.
-- The diffuser (the lecturer's worked example, not graded) is solved twice: interpolation on the tabulated `h(T)` over `TR = 200:1:3000` K, and bisection. Group work starts at line 142 (`%% Here starts your part`) with the compressor, combustor, turbine, and nozzle, using either method.
+- The diffuser (the lecturer's worked example, not graded) is solved twice: interpolation on the tabulated `h(T)` over `TR = 200:1:3000` K, and bisection. Group work starts at line 168 (`%% Here starts your part`) with the compressor, combustor, turbine, and nozzle, using either method.
 - `General/*.m` (CpNasa, CvNasa, HNasa, UNasa, SNasa, myfind) are course-supplied and unchanged. They return per-kg values (`Runiv/Sp.Mass`, with `Mass` in kg/mol).
 
 ## Rules that constrain the model
@@ -30,7 +30,7 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 - No Poisson relations (`pV^γ = const`) and no lower heating value. Isentropic steps come from the entropy balance (`Δs_thermal = Rg ln(P2/P1)`), and heat release from the formation enthalpies.
 - Lecturer's rulings (course discussion board): all isentropic efficiencies are 1, and the combustor is isobaric (`P4 = P3`).
 - `T4` is computed from the combustor energy balance at the given `AF` rather than prescribed as in Turns. With H2 fuel the products are H2O plus excess O2 and N2; CO2 stays in the species list with zero mass fraction because Table 2 of the report has a CO2 row.
-- Group 42 inputs (`Groep042.txt`): H2, `Tamb` 300 K, `Pamb` 100 kPa, `P3/P2` 9, `mfurate` 0.58 kg/s, `AF` 170.35, `v1` 200 m/s. These are set on lines 19–20 of `Assignment.m`.
+- Group 42 inputs (`Groep042.txt`): H2, `Tamb` 300 K, `Pamb` 100 kPa, `P3/P2` 9, `mfurate` 0.58 kg/s, `AF` 170.35, `v1` 200 m/s. These are set on lines 24–25 of `Assignment.m`.
 
 ## Gotchas
 
@@ -47,6 +47,6 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 
 ## Status (2026-10-07)
 
-Done: repo set up, group 42 inputs, diffuser verified, compressor (a groupmate's, lines 142–158), combustor (composition lines 160–177, thermodynamics lines 179–206, report output lines 209–236), turbine (a groupmate's, lines 238–279), conditions table filled in `Group42_report.docx`, lecturer's rulings recorded. Combustor assumption: the H2 enters at `Tamb`. Next: nozzle (exit velocity at `P6 = Pamb`); then fill Table 1 (P, T, v at states 1 to 6). Open question: the grading rubric (asked on the course discussion board, no answer yet).
+Done: repo set up, group 42 inputs, diffuser verified, compressor (a groupmate's, lines 168–184), combustor (composition lines 186–202, thermodynamics lines 204–232, report output lines 234–261), turbine (a groupmate's, lines 263–306), conditions table filled in `Group42_report.docx`, lecturer's rulings recorded. Combustor assumption: the H2 enters at `Tamb`. Next: nozzle (exit velocity at `P6 = Pamb`); then fill Table 1 (P, T, v at states 1 to 6). Open question: the grading rubric (asked on the course discussion board, no answer yet).
 
 A local-only branch, `sept29-full-cycle`, holds an earlier full-cycle attempt in a non-course style with rewritten comments in `General/`. It is not the baseline and is deliberately not pushed; use it only as an independent cross-check (its combustor agrees to within 0.2 K, the gap coming from its 298.15 K fuel temperature).

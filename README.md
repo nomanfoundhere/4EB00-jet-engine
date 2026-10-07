@@ -7,15 +7,15 @@ Group 42 assignment for 4EB00 Thermodynamics (TU/e): cycle analysis of a turboje
 Everything not listed here is as supplied on Canvas.
 
 - **`Assignment.m`**
-  - lines 4–5 and 7: the `General` folder and the NASA database are located relative to the script (`mfilename('fullpath')`) instead of MATLAB's current folder, so the script runs wherever it is unzipped.
-  - lines 19–20: the Turns example conditions (gasoline, 45 kPa, `AF = 75`) are replaced by the group 42 values with `cFuel='H2'`.
-  - line 23: the species-order comment now reads `{'H2','O2','CO2','H2O','N2'}`.
+  - lines 5–6 and 9: the `General` folder and the NASA database are located relative to the script (`mfilename('fullpath')`) instead of MATLAB's current folder, so the script runs wherever it is unzipped.
+  - lines 24–25: the Turns example conditions (gasoline, 45 kPa, `AF = 75`) are replaced by the group 42 values with `cFuel='H2'`.
+  - line 29: the species-order comment now reads `{'H2','O2','CO2','H2O','N2'}`.
   - The diffuser code is the lecturer's example, unchanged.
-  - lines 142–158: compressor (isentropic, interpolation on the air entropy table), written by a groupmate.
-  - lines 160–177: combustor composition snippet for the report, with H2/O2 stoichiometry, mixture mass fractions, gas constants and equivalence ratio. The model assumes H2, sufficient oxygen for complete combustion and an outlet temperature within `TR`; input checks are omitted for the fixed Group 42 case.
-  - lines 179–206: combustor thermodynamics snippet, using the adiabatic energy balance and interpolation on the product enthalpy table. Assumption: fuel enters separately at `Tfuel = Tamb`; `Groep042.txt` does not specify its temperature. Bulk velocities at states 3 and 4 are neglected.
-  - lines 209–236: combustor output for Tables 1 and 2. Table 2 follows the template row order (Fuel, O2, N2, CO2, H2O). The mass residual is inlet minus outlet flow. The displayed `s*` retains the course convention and excludes entropy of mixing; its change across combustion is not entropy generation.
-  - lines 238–279: turbine (isentropic, adiabatic; all its work drives the compressor, so `mtot*(h4-h5) = mair*(h3-h2)`, with the composition frozen at the combustor products), written by a groupmate. T5 is solved by interpolation and cross-checked by bisection.
+  - lines 168–184: compressor (isentropic, interpolation on the air entropy table), written by a groupmate.
+  - lines 186–202: combustor composition snippet for the report, with H2/O2 stoichiometry, mixture mass fractions, gas constants and equivalence ratio. The model assumes H2, sufficient oxygen for complete combustion and an outlet temperature within `TR`; input checks are omitted for the fixed Group 42 case.
+  - lines 204–232: combustor thermodynamics snippet, using the adiabatic energy balance and interpolation on the product enthalpy table. Assumption: fuel enters separately at `Tfuel = Tamb`; `Groep042.txt` does not specify its temperature. Bulk velocities at states 3 and 4 are neglected.
+  - lines 234–261: combustor output for Tables 1 and 2. Table 2 follows the template row order (Fuel, O2, N2, CO2, H2O). The mass residual is inlet minus outlet flow. The displayed `s*` retains the course convention and excludes entropy of mixing; its change across combustion is not entropy generation.
+  - lines 263–306: turbine (isentropic, adiabatic; all its work drives the compressor, so `mtot*(h4-h5) = mair*(h3-h2)`, with the composition frozen at the combustor products), written by a groupmate. T5 is solved by interpolation and cross-checked by bisection.
   - The nozzle is not written yet.
 - **`GroupSettings.zip`**: unpacked, and only `Groep042.txt` is kept. All files sit at the repository root; the `GroupSettings/` folder is gone.
 - **`Exercise1Start.m`**: removed, since the exercise is not part of the submission.
