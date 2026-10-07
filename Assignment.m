@@ -194,14 +194,15 @@ Yreac = nreac.*Mi/mtot;                  % Mass fractions before combustion
 
 cho = SpS(1).Elcomp(myfind({El.Name},{'C','H','O'})); % Fuel C, H, O atoms
 nu = [-1 -(cho(1)+cho(2)/4-cho(3)/2) cho(1) cho(2)/2 0]; % Moles per mole of fuel
+AFst = -nu(2)*Mi(2)/(Mi(1)*Yair(2));     % Stoichiometric air/fuel mass ratio
+phi = AFst/AF;                           % Equivalence ratio; below 1 means lean
+
 nprod = nreac+nreac(1)*nu;               % Outlet molar flows
 Yprod = nprod.*Mi/mtot;                  % Mass fractions after combustion
 mcheck = mtot-nprod*Mi';                 % Mass flow in minus out
 
 RgReac = Runiv*sum(nreac)/mtot;          % Reactant gas constant
 RgProd = Runiv*sum(nprod)/mtot;          % Product gas constant
-AFst = -nu(2)*Mi(2)/(Mi(1)*Yair(2));     % Stoichiometric air/fuel mass ratio
-phi = AFst/AF;                           % Equivalence ratio; below 1 means lean
 
 %% [3-4] Combustor: thermodynamics
 % Steady, adiabatic flow with no shaft work or potential energy change
