@@ -234,3 +234,46 @@ end
 fprintf('%8s| %9.2f %9.2f  [J/(kg K)]\n','Rg',RgReac,RgProd);
 fprintf('Mass fractions are in kg species/kg mixture.\n');
 fprintf('Mass balance (in - out): %.2e kg/s\n',mcheck);
+
+%% [4-5] Turbine
+% Isentropic and adiabatic; all turbine work drives the compressor. Composition frozen at Yprod.
+cMethod = 'Interpolation Method';
+sPart = 'Turbine';
+
+v5 = 0;                                                                     % Neglected outlet velocity [m/s]
+Wcomp = mair*(h3-h2);                                                       % Compressor power, air only [W]
+h5 = h4-Wcomp/mtot;                                                         % Work balance: mtot*(h4-h5) = mair*(h3-h2)
+T5 = interp1(hprod_a,TR,h5);
+for i=1:NSp
+    si5(i) = SNasa(T5,SpS(i));
+end
+s5thermal = Yprod*si5';
+P5 = P4*exp((s5thermal-s4thermal)/RgProd);                                  % s5 = s4: ln(P5/P4) = (s5th-s4th)/Rg
+S5 = s5thermal-RgProd*log(P5/Pref);
+Wturb = mtot*(h4-h5);
+
+% Cross-check T5 with bisection
+TL = TR(1);TH = T4;
+while abs(TH-TL) > 0.01
+    Ti = (TL+TH)/2;
+    for i=1:NSp
+        hi5(i) = HNasa(Ti,SpS(i));
+    end
+    if Yprod*hi5' > h5
+        TH = Ti;
+    else
+        TL = Ti;
+    end
+end
+T5bis = (TL+TH)/2;
+
+fprintf('\n%14s\n',cMethod);
+fprintf('Stage  ||%14s        [unit]\n      NR|%9i %9i\n',sPart,4,5);
+fprintf('-------------------------------------\n');
+fprintf('%8s| %9.2f %9.2f  [K]\n','Temp',T4,T5);
+fprintf('%8s| %9.2f %9.2f  [kPa]\n','Press',P4/kPa,P5/kPa);
+fprintf('%8s| %9.2f %9.2f  [m/s]\n','v',v4,v5);
+fprintf('%8s| %9.2f %9.2f  [kJ/kg]\n','h',h4/kJ,h5/kJ);
+fprintf('%8s| %9.4f %9.4f  [kJ/(kg K)]\n','s*',S4/kJ,S5/kJ);
+fprintf('Compressor power %.3f MW, turbine power %.3f MW\n',Wcomp/1e6,Wturb/1e6);
+fprintf('T5 interpolation vs bisection: %.4f vs %.4f K\n',T5,T5bis);
