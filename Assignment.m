@@ -184,7 +184,7 @@ fprintf('P3 = %.6g kPa\n', P3/kPa);
 fprintf('T3 = %.5g K\n', T3);
 
 %% [3-4] Combustor: composition
-% Species order: [H2 O2 CO2 H2O N2].
+% Species order: [fuel O2 CO2 H2O N2].
 
 mair = AF*mfurate;                       % Air mass flow
 mtot = mair+mfurate;                     % Total outlet mass flow
@@ -192,13 +192,15 @@ mtot = mair+mfurate;                     % Total outlet mass flow
 nreac = (mair*Yair+mfurate*Yfuel)./Mi;   % Inlet molar flow of each species
 Yreac = nreac.*Mi/mtot;                  % Mass fractions before combustion
 
-nprod = nreac+nreac(1)*[-1 -0.5 0 1 0];  % Outlet molar flows: H2 + 0.5 O2 -> H2O
+cho = SpS(1).Elcomp(myfind({El.Name},{'C','H','O'})); % Fuel C, H, O atoms
+nu = [-1 -(cho(1)+cho(2)/4-cho(3)/2) cho(1) cho(2)/2 0]; % Moles per mole of fuel
+nprod = nreac+nreac(1)*nu;               % Outlet molar flows
 Yprod = nprod.*Mi/mtot;                  % Mass fractions after combustion
 mcheck = mtot-nprod*Mi';                 % Mass flow in minus out
 
 RgReac = Runiv*sum(nreac)/mtot;          % Reactant gas constant
 RgProd = Runiv*sum(nprod)/mtot;          % Product gas constant
-AFst = 0.5*Mi(2)/(Mi(1)*Yair(2));        % Stoichiometric air/fuel mass ratio
+AFst = -nu(2)*Mi(2)/(Mi(1)*Yair(2));     % Stoichiometric air/fuel mass ratio
 phi = AFst/AF;                           % Equivalence ratio; below 1 means lean
 
 %% [3-4] Combustor: thermodynamics

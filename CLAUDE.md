@@ -29,7 +29,7 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 
 - No Poisson relations (`pV^γ = const`) and no lower heating value. Isentropic steps come from the entropy balance (`Δs_thermal = Rg ln(P2/P1)`), and heat release from the formation enthalpies.
 - Lecturer's rulings (course discussion board): all isentropic efficiencies are 1, and the combustor is isobaric (`P4 = P3`).
-- `T4` is computed from the combustor energy balance at the given `AF` rather than prescribed as in Turns. With H2 fuel the products are H2O plus excess O2 and N2; CO2 stays in the species list with zero mass fraction because Table 2 of the report has a CO2 row.
+- `T4` is computed from the combustor energy balance at the given `AF` rather than prescribed as in Turns. The combustion coefficients are built from the fuel's C, H, O atoms (`Elcomp`), so any database fuel works; with H2 the products are H2O plus excess O2 and N2; CO2 stays in the species list with zero mass fraction because Table 2 of the report has a CO2 row.
 - Group 42 inputs (`Groep042.txt`): H2, `Tamb` 300 K, `Pamb` 100 kPa, `P3/P2` 9, `mfurate` 0.58 kg/s, `AF` 170.35, `v1` 200 m/s. These are set on lines 24–25 of `Assignment.m`.
 
 ## Gotchas
@@ -47,6 +47,6 @@ Calling it by name from another folder is the meaningful check: `run('Assignment
 
 ## Status (2026-10-07)
 
-Done: repo set up, group 42 inputs, diffuser verified, compressor (a groupmate's, lines 168–184), combustor (composition lines 186–202, thermodynamics lines 204–232, report output lines 234–261), turbine (a groupmate's, lines 263–306), conditions table filled in `Group42_report.docx`, lecturer's rulings recorded. Combustor assumption: the H2 enters at `Tamb`. Next: nozzle (exit velocity at `P6 = Pamb`); then fill Table 1 (P, T, v at states 1 to 6). Open question: the grading rubric (asked on the course discussion board, no answer yet).
+Done: repo set up, group 42 inputs, diffuser verified, compressor (a groupmate's, lines 168–184), combustor (composition lines 186–204, thermodynamics lines 206–234, report output lines 236–263), turbine (a groupmate's, lines 265–308), Tables 1 (states 1–5) and 2 filled in `Group42_report.docx`, lecturer's rulings recorded. Combustor assumption: the H2 enters at `Tamb`. Next: nozzle (exit velocity at `P6 = Pamb`); then state 6 in Table 1. Open question: the grading rubric (asked on the course discussion board, no answer yet).
 
 A local-only branch, `sept29-full-cycle`, holds an earlier full-cycle attempt in a non-course style with rewritten comments in `General/`. It is not the baseline and is deliberately not pushed; use it only as an independent cross-check (its combustor agrees to within 0.2 K, the gap coming from its 298.15 K fuel temperature).
