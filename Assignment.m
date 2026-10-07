@@ -268,16 +268,16 @@ fprintf('Mass balance (in - out): %.2e kg/s\n',mcheck);
 cMethod = 'Interpolation Method';
 sPart = 'Turbine';
 
-v5 = 0;                                                                     % Neglected outlet velocity [m/s]
-Wcomp = mair*(h3-h2);                                                       % Compressor power, air only [W]
-h5 = h4-Wcomp/mtot;                                                         % Work balance: mtot*(h4-h5) = mair*(h3-h2)
+v5 = 0;                                  % Neglected outlet velocity [m/s]
+Wcomp = mair*(h3-h2);                    % Compressor power, air only [W]
+h5 = h4-Wcomp/mtot;                      % Work balance: mtot*(h4-h5) = mair*(h3-h2)
 T5 = interp1(hprod_a,TR,h5);
 
 for i=1:NSp
     si5(i) = SNasa(T5,SpS(i));
 end
 s5thermal = Yprod*si5';
-P5 = P4*exp((s5thermal-s4thermal)/RgProd);                                  % s5 = s4: ln(P5/P4) = (s5th-s4th)/Rg
+P5 = P4*exp((s5thermal-s4thermal)/RgProd); % s5 = s4: ln(P5/P4) = (s5th-s4th)/Rg
 S5 = s5thermal-RgProd*log(P5/Pref);
 
 Wturb = mtot*(h4-h5);
