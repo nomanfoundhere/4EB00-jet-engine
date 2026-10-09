@@ -307,3 +307,28 @@ fprintf('%8s| %9.2f %9.2f  [kJ/kg]\n','h',h4/kJ,h5/kJ);
 fprintf('%8s| %9.4f %9.4f  [kJ/(kg K)]\n','s*',S4/kJ,S5/kJ);
 fprintf('Compressor power %.3f MW, turbine power %.3f MW\n',Wcomp/1e6,Wturb/1e6);
 fprintf('T5 interpolation vs bisection: %.4f vs %.4f K\n',T5,T5bis);
+
+%% [5-6] Nozzle
+cMethod = 'Interpolation Method';
+sPart = 'Nozzle';
+
+sprod = Yprod * sia';
+
+S6 = S5;
+P6 = Pamb;
+S6thermal = S6 + RgProd * log(P6/Pref);
+T6 = interp1(sprod, TR, S6thermal)
+for i = 1:NSp
+    hi6(i) = HNasa(T6, SpS(i));
+end
+h6 = hi6 * Yprod'
+v6 = sqrt(2*(h5-h6))
+
+fprintf('\n%14s\n',cMethod);
+fprintf('Stage  ||%14s        [unit]\n      NR|%9i %9i\n',sPart,5,6);
+fprintf('-------------------------------------\n');
+fprintf('%8s| %9.2f %9.2f  [K]\n','Temp',T5,T6);
+fprintf('%8s| %9.2f %9.2f  [kPa]\n','Press',P5/kPa,P6/kPa);
+fprintf('%8s| %9.2f %9.2f  [m/s]\n','v',v5,v6);
+fprintf('%8s| %9.2f %9.2f  [kJ/kg]\n','h',h5/kJ,h6/kJ);
+fprintf('%8s| %9.4f %9.4f  [kJ/(kg K)]\n','s*',S5/kJ,S6/kJ);
