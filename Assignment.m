@@ -309,19 +309,19 @@ fprintf('Compressor power %.3f MW, turbine power %.3f MW\n',Wcomp/1e6,Wturb/1e6)
 fprintf('T5 interpolation vs bisection: %.4f vs %.4f K\n',T5,T5bis);
 
 %% [5-6] Nozzle
-cMethod = 'Interpolation Method';        % Method for the output
-sPart = 'Nozzle';                        % Component label for the output
+cMethod = 'Interpolation Method';
+sPart = 'Nozzle';
 
 sprod = Yprod * sia';                    % Product thermal entropy across TR
 
 S6 = S5;                                 % Isentropic expansion
 P6 = Pamb;                               % Expansion to ambient pressure
-S6thermal = S6 + RgProd * log(P6/Pref);  % Thermal entropy at state 6, product Rg
-T6 = interp1(sprod, TR, S6thermal);      % Outlet temp from the entropy table
-for i = 1:NSp                            % Loop over the selected species.
-    hi6(i) = HNasa(T6, SpS(i));          % Species enthalpy at T6
+S6thermal = S6 + RgProd * log(P6/Pref);
+T6 = interp1(sprod, TR, S6thermal);
+for i = 1:NSp
+    hi6(i) = HNasa(T6, SpS(i));
 end
-h6 = hi6 * Yprod';                       % Outlet product enthalpy
+h6 = hi6 * Yprod';
 v6 = sqrt(2*(h5-h6));                    % Exit velocity, energy balance with v5 = 0
 
 fprintf('\n%14s\n',cMethod);
